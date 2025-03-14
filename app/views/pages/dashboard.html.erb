@@ -1,0 +1,8 @@
+<div>
+    <h1>dashboard</h1>
+    <p>
+        Welcome, <%= Current.user.email_address %>
+    </p>
+    <%= button_to "Logout", session_path, method: :delete %>
+
+</div>
