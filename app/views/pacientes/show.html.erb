@@ -1,0 +1,12 @@
+<div>
+  <h1 class="font-bold text-4xl">Pacientes#paciente</h1>
+  <p>Find me in app/views/pacientes/show.html.erb</p>
+  <%= @paciente.nombre %>
+  <%= @paciente.apellido_paterno %>
+  <%= @paciente.apellido_materno %>
+  <%= @paciente.curp %>
+  <div>
+    <%= button_to "Borrar", paciente_path(@paciente), method: :delete %>
+    <%= link_to "Editar", edit_paciente_path(@paciente) %>
+  </div>
+</div>

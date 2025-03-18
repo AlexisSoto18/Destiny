@@ -1,0 +1,90 @@
+
+<div class="bg-white p-8 rounded-md w-full">
+  <div class="flex items-center justify-between pb-6">
+    <div>
+      <h2 class="text-gray-600 font-semibold">Pacientes</h2>
+      <span class="text-xs">Lista de pacientes registrados</span>
+    </div>
+  <div class="flex items-center justify-between">
+
+  <!-- Barra de búsqueda expandida -->
+  <div class="flex items-center bg-gray-50 p-4 rounded-md shadow-sm">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+      <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+    </svg>
+    <%= form_with url: pacientes_path, method: :get, local: true, class: "flex items-center w-full" do |form| %>
+      <input type="text" name="nombre" class="flex-grow bg-gray-50 outline-none ml-3 p-2 text-gray-800 border border-gray-200 rounded-md focus:ring focus:ring-indigo-300 focus:border-indigo-500" placeholder="Buscar por nombre, apellido o CURP...">
+      <%= form.submit "Buscar", class: "bg-indigo-600 text-white px-4 py-2 rounded-md font-semibold hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 ml-2" %>
+    <% end %>
+  </div>
+
+
+  <!-- Botón para nuevo paciente -->
+  <div class="ml-4">
+    <%= link_to "Nuevo Paciente", new_paciente_path, class: "bg-green-500 px-6 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500" %>
+  </div>
+</div>
+
+  </div>
+  <!-- Tabla de pacientes -->
+  <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
+    <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
+      <table class="min-w-full leading-normal">
+        <thead>
+          <tr>
+            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+              Nombre
+            </th>
+            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+              CURP
+            </th>
+            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+              Telefono
+            </th>
+            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+              Tipo de Sangre
+            </th>
+            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+              Fecha de Registro
+            </th>
+            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+              Acciones
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @pacientes.each do |paciente| %>
+            <tr>
+              <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                <div class="flex items-center">
+                  <div class="ml-3">
+                    <p class="text-gray-900 whitespace-no-wrap">
+                      <%= "#{paciente.nombre} #{paciente.apellido_paterno} #{paciente.apellido_materno}" %>
+                    </p>
+                  </div>
+                </div>
+              </td>
+              <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                <p class="text-gray-900 whitespace-no-wrap"><%= paciente.curp %></p>
+              </td>
+              <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                <p class="text-gray-900 whitespace-no-wrap"><%= paciente.direccion&.telefono_principal %></p>
+              </td>
+              <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                <p class="text-gray-900 whitespace-no-wrap"><%= paciente.tipo_sanguineo %></p>
+              </td>
+              <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                <p class="text-gray-900 whitespace-no-wrap"><%= paciente.created_at.strftime("%d/%m/%Y") %></p>
+              </td>
+              <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                <%= link_to "Ver", paciente_path(paciente), class: "text-blue-500 underline" %> |
+                <%= link_to "Editar", edit_paciente_path(paciente), class: "text-yellow-500 underline" %> |
+                <%= button_to "Eliminar", paciente_path(paciente), method: :delete, class: "text-red-500 underline" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

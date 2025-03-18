@@ -14,4 +14,5 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "pages#home"
   get "dashboard" => "pages#dashboard"
+  resources :pacientes
 end

@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  medico: MyString
+  historial_clinico: MyText
+  acciones_tomadas: MyText
+  riesgos_identificados: MyText
+  paciente: one
+
+two:
+  medico: MyString
+  historial_clinico: MyText
+  acciones_tomadas: MyText
+  riesgos_identificados: MyText
+  paciente: two
