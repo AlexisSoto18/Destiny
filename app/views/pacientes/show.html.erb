@@ -1,12 +1,32 @@
-<div>
-  <h1 class="font-bold text-4xl">Pacientes#paciente</h1>
-  <p>Find me in app/views/pacientes/show.html.erb</p>
-  <%= @paciente.nombre %>
-  <%= @paciente.apellido_paterno %>
-  <%= @paciente.apellido_materno %>
-  <%= @paciente.curp %>
-  <div>
-    <%= button_to "Borrar", paciente_path(@paciente), method: :delete %>
-    <%= link_to "Editar", edit_paciente_path(@paciente) %>
+<div class="max-w-4xl mx-auto bg-white shadow-lg rounded-lg p-6">
+  <h1 class="text-3xl font-bold text-gray-800 mb-4">Expediente Dental</h1>
+
+  <!-- Perfil del Paciente -->
+  <div class="bg-gray-25 p-4 rounded-lg">
+    <h2 class="text-2xl font-semibold">Perfil del Paciente</h2>
+    <p class="text-gray-700 flex items-center"><%= @paciente.nombre %> <%= @paciente.apellido_paterno %> <%= @paciente.apellido_materno %></p>
+
+    <div class="grid grid-cols-2 gap-4 mt-2">
+      <p class="text-gray-600"><strong>🆔 CURP:</strong> <%= @paciente.curp %></p>
+      <p class="text-gray-600"><strong>📧 Email:</strong> <%= @paciente.direccion.correo_electronico %></p>
+      <p class="text-gray-600"><strong>📍 Dirección:</strong> <%= @paciente.direccion.calle %>, <%= @paciente.direccion.localidad %>, <%= @paciente.direccion.municipio %>, <%= @paciente.direccion.estado %></p>
+      <p class="text-gray-600"><strong>🩸 Tipo Sanguíneo:</strong> <%= @paciente.tipo_sanguineo %></p>
+      <p class="text-gray-600"><strong>♿ Discapacidad:</strong> <%= @paciente.discapacidad.present? ? @paciente.discapacidad : "Ninguna" %></p>
+      <p class="text-gray-600"><strong>🌍 Grupo Étnico:</strong> <%= @paciente.grupo_etnico %></p>
+      <p class="text-gray-600"><strong>⛪ Religión:</strong> <%= @paciente.religion %></p>
+      <p class="text-gray-600"><strong>💰 Nivel Socioeconómico:</strong> <%= @paciente.nivel_socioeconomico %></p>
+      <p class="text-gray-600"><strong>📞 Teléfono:</strong> <%= @paciente.direccion.telefono_principal %></p>
+      <p class="text-gray-600"><strong>📞 Tel. Emergencia:</strong> <%= @paciente.direccion.telefono_emergencia %></p>
+    </div>
+
+    <div class="flex justify-between mt-6">
+      <%= button_to "Borrar", paciente_path(@paciente), method: :delete, data: { confirm: "¿Estás seguro?" }, class: "bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition" %>
+      <%= link_to "Editar", edit_paciente_path(@paciente), class: "bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition" %>
+    </div>
   </div>
+
+  <!-- Sección Historial Clínico -->
+  <h2 class="text-2xl font-semibold text-gray-800 mt-6">Historial Clínico</h2>
+
+  
 </div>
