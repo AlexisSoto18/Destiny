@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_17_023048) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_21_044852) do
   create_table "direccions", force: :cascade do |t|
     t.string "correo_electronico"
     t.string "telefono_emergencia"
@@ -53,6 +53,25 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_17_023048) do
     t.index ["user_id"], name: "index_pacientes_on_user_id"
   end
 
+  create_table "sales", force: :cascade do |t|
+    t.decimal "costo"
+    t.string "servicio"
+    t.integer "paciente_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["paciente_id"], name: "index_sales_on_paciente_id"
+  end
+
+  create_table "schedules", force: :cascade do |t|
+    t.string "titulo"
+    t.string "descripcion"
+    t.datetime "fecha_hora"
+    t.integer "paciente_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["paciente_id"], name: "index_schedules_on_paciente_id"
+  end
+
   create_table "sessions", force: :cascade do |t|
     t.integer "user_id", null: false
     t.string "ip_address"
@@ -76,5 +95,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_17_023048) do
   add_foreign_key "direccions", "pacientes"
   add_foreign_key "historial_clinicos", "pacientes"
   add_foreign_key "pacientes", "users"
+  add_foreign_key "sales", "pacientes"
+  add_foreign_key "schedules", "pacientes"
   add_foreign_key "sessions", "users"
 end
