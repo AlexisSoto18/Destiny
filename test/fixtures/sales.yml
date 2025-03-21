@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  costo: 9.99
+  servicio: MyString
+  paciente: one
+
+two:
+  costo: 9.99
+  servicio: MyString
+  paciente: two
