@@ -15,4 +15,9 @@ Rails.application.routes.draw do
   root "pages#home"
   get "dashboard" => "pages#dashboard"
   resources :pacientes
+  resources :sales
+# config/routes.rb
+resources :sales do
+  get '_form', on: :collection  # Esto asegura que se acceda a /sales/form sin necesidad de un `id`
+end
 end

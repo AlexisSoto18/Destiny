@@ -1,0 +1,20 @@
+<h1 class="text-4xl font-bold text-center my-8 text-gray-800">Detalles de la Venta</h1>
+
+<div class="bg-white p-8 rounded-md shadow-md w-full">
+  <div class="mb-6">
+    <p class="text-lg"><strong class="font-semibold text-gray-700">Costo:</strong> <%= @sale.costo %></p>
+  </div>
+  
+  <div class="mb-6">
+    <p class="text-lg"><strong class="font-semibold text-gray-700">Servicio:</strong> <%= @sale.servicio %></p>
+  </div>
+
+  <div class="mb-6">
+    <p class="text-lg"><strong class="font-semibold text-gray-700">Paciente:</strong> <%= @sale.paciente.nombre %> <%= @sale.paciente.apellido_paterno %></p>
+  </div>
+
+  <div class="mt-6 flex justify-start space-x-4">
+    <%= link_to 'Editar', edit_sale_path(@sale), class: "text-yellow-600 hover:text-yellow-800 font-semibold hover:underline transition duration-200" %>
+    <%= link_to 'Volver', sales_path, class: "text-blue-600 hover:text-blue-800 font-semibold hover:underline transition duration-200" %>
+  </div>
+</div>

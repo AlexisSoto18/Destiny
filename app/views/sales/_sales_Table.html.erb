@@ -1,0 +1,44 @@
+<!-- _sales_table.html.erb -->
+<table class="min-w-full leading-normal">
+  <thead>
+    <tr>
+      <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+        Costo
+      </th>
+      <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+        Servicio
+      </th>
+      <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+        Paciente
+      </th>
+      <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+        Acciones
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @sales.each do |sale| %>
+      <tr>
+        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+          <p class="text-gray-900 whitespace-no-wrap"><%= number_to_currency(sale.costo) %></p>
+        </td>
+        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+          <p class="text-gray-900 whitespace-no-wrap"><%= sale.servicio %></p>
+        </td>
+        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+          <p class="text-gray-900 whitespace-no-wrap"><%= sale.paciente.nombre %> <%= sale.paciente.apellido_paterno %></p>
+        </td>
+        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+          <%= link_to "Ver", sale_path(sale), class: "text-blue-500 underline" %> |
+          <%= link_to "Editar", edit_sale_path(sale), class: "text-yellow-500 underline" %> |
+          <%= link_to "Eliminar", sale_path(sale), method: :delete, data: { confirm: '¿Estás seguro de que deseas eliminar esta venta?' }, class: "text-red-500 underline" %>
+        </td>
+      </tr>
+    <% end %>
+    <!-- Fila para mostrar la suma total del costo -->
+    <tr class="font-bold">
+      <td colspan="3" class="px-5 py-5 border-t border-gray-200 bg-gray-100 text-right text-sm">Total Costo:</td>
+      <td class="px-5 py-5 border-t border-gray-200 bg-gray-100 text-sm"><%= number_to_currency(@total_costo) %></td>
+    </tr>
+  </tbody>
+</table>
