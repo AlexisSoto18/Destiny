@@ -2,7 +2,8 @@ class Paciente < ApplicationRecord
   belongs_to :user
 
   has_one :direccion, dependent: :destroy
-  has_one :sale, dependent: :destroy
+  has_many :sale, dependent: :destroy
+  has_many :historial_clinicos, dependent: :destroy
   # has_one :historial_clinico
   scope :search, ->(nombre) { where("CONCAT(nombre, ' ', apellido_paterno, ' ', apellido_materno) LIKE ?", "%#{nombre}%") }
 

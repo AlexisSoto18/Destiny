@@ -14,10 +14,9 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "pages#home"
   get "dashboard" => "pages#dashboard"
-  resources :pacientes
+  resources :pacientes do
+    resources :medical_records
+  end
   resources :sales
-# config/routes.rb
-resources :sales do
-  get '_form', on: :collection  # Esto asegura que se acceda a /sales/form sin necesidad de un `id`
-end
+
 end
