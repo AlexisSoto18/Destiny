@@ -42,6 +42,9 @@
               Paciente
             </th>
             <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+              Fecha
+            </th>
+            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
               Acciones
             </th>
           </tr>
@@ -50,13 +53,19 @@
           <% @sales.each do |sale| %>
             <tr>
               <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                <p class="text-gray-900 whitespace-no-wrap"><%= sale.costo %></p>
+                <p class="text-gray-900 whitespace-no-wrap"><%= number_to_currency(sale.costo) %></p>
               </td>
               <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                 <p class="text-gray-900 whitespace-no-wrap"><%= sale.servicio %></p>
               </td>
               <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                 <p class="text-gray-900 whitespace-no-wrap"><%= sale.paciente.nombre %> <%= sale.paciente.apellido_paterno %></p>
+              </td>
+              <!-- Columna de Fecha -->
+              <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                <p class="text-gray-900 whitespace-no-wrap">
+                  <%= sale.created_at.in_time_zone('America/Mexico_City').strftime('%d/%m/%Y %H:%M') %>
+                </p>
               </td>
               <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                 <%= link_to "Ver", sale_path(sale), class: "text-blue-500 underline" %> |
