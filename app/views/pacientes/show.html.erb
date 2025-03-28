@@ -19,14 +19,35 @@
       <p class="text-gray-600"><strong>📞 Tel. Emergencia:</strong> <%= @paciente.direccion.telefono_emergencia %></p>
     </div>
 
-    <div class="flex justify-between mt-6">
-      <%= button_to "Borrar", paciente_path(@paciente), method: :delete, data: { confirm: "¿Estás seguro?" }, class: "bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition" %>
+    <div class="flex space-x-5 mt-4">
       <%= link_to "Editar", edit_paciente_path(@paciente), class: "bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition" %>
+      <%= button_to "Borrar", paciente_path(@paciente), method: :delete, data: { confirm: "¿Estás seguro?" }, class: "bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition" %>
     </div>
   </div>
 
   <!-- Sección Historial Clínico -->
-  <h2 class="text-2xl font-semibold text-gray-800 mt-6">Historial Clínico</h2>
+  <div class="flex justify-between items-center mt-6">
+    <h2 class="text-2xl font-semibold text-gray-800 mt-6">Historial Clínico</h2>
+    <%= link_to "Agregar Historial", new_paciente_medical_record_path(@paciente), class: "bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition mt-2 inline-block" %>
+  </div>
 
+  <% if @paciente.historial_clinicos.any? %>
+    <% @paciente.historial_clinicos.each do |historial| %>
+      <div class="bg-gray-100 p-4 rounded-lg mt-2">
+        <p><strong>👨‍⚕️ Dr,Dra:</strong> <%= historial.medico %> - <%= historial.created_at.in_time_zone('America/Mexico_City').strftime('%d/%m/%Y %H:%M') %></p>
+        <p><strong>📄 Resumen clínico:</strong> <%= historial.historial_clinico %></p>
+        <p><strong>🩺 Acciones Tomadas:</strong> <%= historial.acciones_tomadas %></p>
+        <p><strong>⚠️ Riesgos Identificados:</strong> <%= historial.riesgos_identificados %></p>
+
+        <div class="flex space-x-5 mt-4">
+          <%= link_to "Editar", edit_paciente_medical_record_path(@paciente, historial), class: "bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition" %>
+          <%= button_to "Eliminar", paciente_medical_record_path(@paciente, historial), method: :delete, data: { confirm: "¿Seguro que deseas eliminar este historial?" }, class: "bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition" %>
+        </div>
+      </div>
+    <% end %>
+  <% else %>
+    <p class="text-gray-500">No hay historial clínico registrado.</p>
+  <% end %>
   
+
 </div>

@@ -1,0 +1,23 @@
+<%= form_with(model: @historial_clinico , url: paciente_medical_records_path(paciente_id: @paciente.id ),  method: "post",  local: true) do |f| %>
+  <div class="mb-4">
+    <%= f.label :medico, "Médico" %>
+    <%= f.text_field :medico, class: "w-full p-2 border rounded" %>
+  </div>
+
+  <div class="mb-4">
+    <%= f.label :historial_clinico, "Historial Clínico" %>
+    <%= f.text_area :historial_clinico, class: "w-full p-2 border rounded" %>
+  </div>
+
+  <div class="mb-4">
+    <%= f.label :acciones_tomadas, "Acciones Tomadas" %>
+    <%= f.text_area :acciones_tomadas, class: "w-full p-2 border rounded" %>
+  </div>
+
+  <div class="mb-4">
+    <%= f.label :riesgos_identificados, "Riesgos Identificados" %>
+    <%= f.text_area :riesgos_identificados, class: "w-full p-2 border rounded" %>
+  </div>
+
+  <%= f.submit "Guardar", class: "bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition" %>
+<% end %>
