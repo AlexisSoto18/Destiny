@@ -28,6 +28,8 @@ gem "solid_cache"
 gem "solid_queue"
 gem "solid_cable"
 # mis gemas
+gem "font-awesome-sass", "~> 6.0"
+gem "heroicon-rails", "~> 0.2.9"
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
