@@ -1,5 +1,5 @@
 class PacientesController < ApplicationController
-  before_action :set_paciente, only: [:show, :edit, :update, :destroy]
+  before_action :set_paciente, only: [ :show, :edit, :update, :destroy ]
 
   def index
     if params[:nombre].present?
@@ -56,10 +56,7 @@ class PacientesController < ApplicationController
   def paciente_params
     params.require(:paciente).permit(
       :curp, :nombre, :apellido_paterno, :apellido_materno, :nivel_socioeconomico, :tipo_sanguineo, :discapacidad, :grupo_etnico, :religion,
-
-      direccion_attributes: [ :id, :correo_electronico, :telefono_emergencia, :telefono_principal, :estado, :municipio, :localidad, :calle, :code_postal, :_destroy ],
-        # historial_clinico_attributes: [ :id, :medico, :historial_clinico, :acciones_tomadas, :riesgos_identificados, :_destroy ]
-        # sales_attributes: [ :id, :costo, :servicio, :_destroy ],
-        # schedules_attributes: [ :id, :titulo, :descripcion, :fecha_hora, :_destroy ]
+      direccion_attributes: [ :id, :correo_electronico, :telefono_emergencia, :telefono_principal, :estado, :municipio, :localidad, :calle, :code_postal, :_destroy ]
       )
-   end
+  end
+end
