@@ -1,0 +1,20 @@
+<%= form_with(model: @schedule, local: true) do |form| %>
+  <div class="mb-6">
+    <%= form.label :paciente_id, class: "block text-sm font-semibold text-gray-700" %>
+    <%= form.collection_select :paciente_id, Paciente.all, :id, :nombre, prompt: "Selecciona un paciente", class: "w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" %>
+  </div>
+  <div>
+    <%= form.label :titulo, "Título" %>
+    <%= form.text_field :titulo, required: true %>
+  </div>
+  <div>
+    <%= form.label :descripcion, "Descripción" %>
+    <%= form.text_area :descripcion, required: true %>
+  </div>
+  <div>
+    <%= form.label :fecha_hora, "Fecha y Hora" %>
+    <%= form.datetime_local_field :fecha_hora, required: true %>
+  </div>
+  <%= form.submit "Agendar Cita" %>
+<% end %>
+

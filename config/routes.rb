@@ -17,6 +17,6 @@ Rails.application.routes.draw do
   resources :pacientes do
     resources :medical_records
   end
+  resources :schedules
   resources :sales
-
 end
