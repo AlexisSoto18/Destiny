@@ -1,17 +1,16 @@
 Rails.application.routes.draw do
+  get "calendario/index"
   resource :session
   resources :passwords, param: :token
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
+  
+  # Ruta para verificar estado de la app
   get "up" => "rails/health#show", as: :rails_health_check
-
-  # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
+  
+  # Ruta para archivos PWA (si decides activarlo)
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
-  # Defines the root path route ("/")
+  # Ruta raíz y dashboard
   root "pages#home"
   get "dashboard" => "pages#dashboard"
   resources :pacientes do
@@ -19,4 +18,10 @@ Rails.application.routes.draw do
   end
   resources :sales
 
+
+  # Nuevas rutas añadidas
+  get "calendario" => "calendario#index", as: :calendario
+  get "historial" => "pacientes#edit", as: :historial
+  # Rutas para pacientes
+  resources :pacientes
 end
