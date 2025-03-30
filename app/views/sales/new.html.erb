@@ -1,37 +1,50 @@
-<h1 class="text-4xl font-bold text-center my-8 text-gray-800">Nuevo Registro de Venta</h1>
+<div class="bg-white p-8 rounded-md w-full shadow-md rounded-lg overflow-hidden">
+  <!-- Encabezado -->
+  <div class="flex items-center justify-between pb-6 border-gray-200 border-b">
+    <div>
+      <h2 class="text-gray-700 font-semibold text-lg">Nuevo Registro de Venta</h2>
+      <span class="text-sm text-gray-500">Complete la información de la venta</span>
+    </div>
+  </div>
 
-<%= form_with(model: @sale, local: true, class: "bg-white p-8 rounded-md shadow-md w-full") do |form| %>
-  <% if @sale.errors.any? %>
-    <div id="error_explanation" class="bg-red-100 text-red-600 p-4 rounded-md mb-4">
-      <h2 class="font-semibold"><%= pluralize(@sale.errors.count, "error") %> prohibieron esta venta de ser guardada:</h2>
-      <ul class="list-disc pl-5">
-        <% @sale.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
+  <%= form_with(model: @sale, local: true, class: "w-full") do |form| %>
+    <% if @sale.errors.any? %>
+      <div id="error_explanation" class="bg-red-100 text-red-600 p-4 rounded-md mb-4">
+        <h2 class="font-semibold"><%= pluralize(@sale.errors.count, "error") %> prohibieron esta venta de ser guardada:</h2>
+        <ul class="list-disc pl-5">
+          <% @sale.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <!-- Costo -->
+    <div class="mb-6">
+      <%= form.label :costo, class: "block text-sm font-semibold text-gray-700" %>
+      <%= form.text_field :costo, class: "w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" %>
+    </div>
+
+    <!-- Servicio -->
+    <div class="mb-6">
+      <%= form.label :servicio, class: "block text-sm font-semibold text-gray-700" %>
+      <%= form.text_field :servicio, class: "w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" %>
+    </div>
+
+    <!-- Paciente -->
+    <div class="mb-6">
+      <%= form.label :paciente_id, class: "block text-sm font-semibold text-gray-700" %>
+      <%= form.collection_select :paciente_id, Paciente.all, :id, :nombre, prompt: "Selecciona un paciente", class: "w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" %>
+    </div>
+
+    <!-- Botón para registrar la venta -->
+    <div class="mt-6 flex justify-end">
+      <%= form.submit "Registrar Venta", class: "bg-green-600 text-white px-6 py-3 rounded-md font-semibold hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500" %>
     </div>
   <% end %>
 
-  <div class="mb-6">
-    <%= form.label :costo, class: "block text-sm font-semibold text-gray-700" %>
-    <%= form.text_field :costo, class: "w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" %>
+  <!-- Enlace de Volver -->
+  <div class="mt-6 text-center">
+    <%= link_to 'Volver', sales_path, class: "text-blue-600 hover:text-blue-800 font-semibold hover:underline" %>
   </div>
-
-  <div class="mb-6">
-    <%= form.label :servicio, class: "block text-sm font-semibold text-gray-700" %>
-    <%= form.text_field :servicio, class: "w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" %>
-  </div>
-
-  <div class="mb-6">
-    <%= form.label :paciente_id, class: "block text-sm font-semibold text-gray-700" %>
-    <%= form.collection_select :paciente_id, Paciente.all, :id, :nombre, prompt: "Selecciona un paciente", class: "w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" %>
-  </div>
-
-  <div class="mt-6 flex justify-end">
-    <%= form.submit "Registrar Venta", class: "bg-green-600 text-white px-6 py-3 rounded-md font-semibold hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500" %>
-  </div>
-<% end %>
-
-<div class="mt-6 text-center">
-  <%= link_to 'Volver', sales_path, class: "text-blue-600 hover:text-blue-800 font-semibold hover:underline" %>
 </div>
