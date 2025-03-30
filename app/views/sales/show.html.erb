@@ -9,15 +9,15 @@
 
   <!-- Información de la Venta -->
   <div class="mb-6">
-    <p class="text-lg"><strong class="font-semibold text-gray-700">Costo:</strong> <%= number_to_currency(@sale.costo) %></p>
+    <p class="text-lg"><strong class="font-semibold text-gray-700">Costo:💰 </strong> <%= number_to_currency(@sale.costo) %></p>
   </div>
   
   <div class="mb-6">
-    <p class="text-lg"><strong class="font-semibold text-gray-700">Servicio:</strong> <%= @sale.servicio %></p>
+    <p class="text-lg"><strong class="font-semibold text-gray-700">Servicio:📄 </strong> <%= @sale.servicio %></p>
   </div>
 
   <div class="mb-6">
-    <p class="text-lg"><strong class="font-semibold text-gray-700">Paciente:</strong> <%= @sale.paciente.nombre %> <%= @sale.paciente.apellido_paterno %></p>
+    <p class="text-lg"><strong class="font-semibold text-gray-700">Paciente:👨‍⚕️ </strong> <%= @sale.paciente.nombre %> <%= @sale.paciente.apellido_paterno %></p>
   </div>
 
   <!-- Acciones -->
