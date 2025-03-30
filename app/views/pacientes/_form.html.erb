@@ -1,77 +1,80 @@
-<div class="grid grid-cols-2 gap-4">
-    <div>
-      <%= form.label :nombre, "Nombre" %>
-      <%= form.text_field :nombre, class: "form-input" %>
+<div class="flex justify-center items-center h-screen">
+  <div class="w-[1200px] h-[600px] p-8 bg-white rounded-lg shadow-md">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <%= form.label :nombre, "Nombre", class: "block text-sm font-medium text-gray-700" %>
+        <%= form.text_field :nombre, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
+      </div>
+      <div>
+        <%= form.label :apellido_paterno, "Apellido Paterno", class: "block text-sm font-medium text-gray-700" %>
+        <%= form.text_field :apellido_paterno, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
+      </div>
+      <div>
+        <%= form.label :apellido_materno, "Apellido Materno", class: "block text-sm font-medium text-gray-700" %>
+        <%= form.text_field :apellido_materno, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
+      </div>
+      <div>
+        <%= form.label :curp, "CURP", class: "block text-sm font-medium text-gray-700" %>
+        <%= form.text_field :curp, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
+      </div>
+      <div>
+        <%= form.label :nivel_socioeconomico, "Nivel Socioeconómico", class: "block text-sm font-medium text-gray-700" %>
+        <%= form.text_field :nivel_socioeconomico, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
+      </div>
+      <div>
+        <%= form.label :tipo_sanguineo, "Tipo de Sangre", class: "block text-sm font-medium text-gray-700" %>
+        <%= form.text_field :tipo_sanguineo, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
+      </div>
+      <div>
+        <%= form.label :discapacidad, "Discapacidad", class: "block text-sm font-medium text-gray-700" %>
+        <%= form.text_field :discapacidad, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
+      </div>
+      <div>
+        <%= form.label :grupo_etnico, "Grupo Étnico", class: "block text-sm font-medium text-gray-700" %>
+        <%= form.text_field :grupo_etnico, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
+      </div>
+      <div>
+        <%= form.label :religion, "Religión", class: "block text-sm font-medium text-gray-700" %>
+        <%= form.text_field :religion, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
+      </div>
+
+      <%= form.fields_for :direccion, @paciente.direccion do |direccion_form| %>
+        <div>
+          <%= direccion_form.label :correo_electronico, "Gmail", class: "block text-sm font-medium text-gray-700" %>
+          <%= direccion_form.text_field :correo_electronico, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
+        </div>
+        <div>
+          <%= direccion_form.label :telefono_principal, "Teléfono Principal", class: "block text-sm font-medium text-gray-700" %>
+          <%= direccion_form.text_field :telefono_principal, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
+        </div>
+        <div>
+          <%= direccion_form.label :telefono_emergencia, "Teléfono de Emergencia", class: "block text-sm font-medium text-gray-700" %>
+          <%= direccion_form.text_field :telefono_emergencia, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
+        </div>
+        <div>
+          <%= direccion_form.label :estado, "Estado", class: "block text-sm font-medium text-gray-700" %>
+          <%= direccion_form.text_field :estado, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
+        </div>
+        <div>
+          <%= direccion_form.label :municipio, "Municipio", class: "block text-sm font-medium text-gray-700" %>
+          <%= direccion_form.text_field :municipio, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
+        </div>
+        <div>
+          <%= direccion_form.label :localidad, "Localidad", class: "block text-sm font-medium text-gray-700" %>
+          <%= direccion_form.text_field :localidad, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
+        </div>
+        <div>
+          <%= direccion_form.label :calle, "Calle", class: "block text-sm font-medium text-gray-700" %>
+          <%= direccion_form.text_field :calle, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
+        </div>
+        <div>
+          <%= direccion_form.label :code_postal, "Código Postal", class: "block text-sm font-medium text-gray-700" %>
+          <%= direccion_form.text_field :code_postal, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
+        </div>
+      <% end %>
+      <div class="mt-4 text-center">
+        <%= form.submit "Guardar", class: "bg-green-500 px-6 py-2 rounded-md font-semibold tracking-wide hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500" %>
     </div>
-    <div>
-      <%= form.label :apellido_paterno, "Apellido Paterno" %>
-      <%= form.text_field :apellido_paterno, class: "form-input" %>
-    </div>
-    <div>
-      <%= form.label :apellido_materno, "Apellido Materno" %>
-      <%= form.text_field :apellido_materno, class: "form-input" %>
-    </div>
-    <div>
-      <%= form.label :curp, "CURP" %>
-      <%= form.text_field :curp, class: "form-input" %>
-    </div>
-    <div>
-      <%= form.label :nivel_socioeconomico, "nivel socieconomico" %>
-      <%= form.text_field :nivel_socioeconomico, class: "form-input" %>
-    </div>
-    <div>
-      <%= form.label :tipo_sanguineo, "Tipo de sangre" %>
-      <%= form.text_field :tipo_sanguineo, class: "form-input" %>
-    </div>
-    <div>
-      <%= form.label :discapacidad, "Discapacidad" %>
-      <%= form.text_field :discapacidad, class: "form-input" %>
-    </div>
-    <div>
-      <%= form.label :grupo_etnico, "Grupo Etnico" %>
-      <%= form.text_field :grupo_etnico, class: "form-input" %>
-    </div>
-    <div>
-      <%= form.label :religion, "Religion" %>
-      <%= form.text_field :religion, class: "form-input" %>
+</div>
     </div>
     
-    <%= form.fields_for :direccion, @paciente.direccion do |direccion_form| %>
-    <div>
-      <%= direccion_form.label :correo_electronico, "Gmail" %>
-      <%= direccion_form.text_field :correo_electronico, class: "form-input" %>
-    </div>
-    <div>
-      <%= direccion_form.label :telefono_principal, "Telefono Principal" %>
-      <%= direccion_form.text_field :telefono_principal, class: "form-input" %>
-    </div>
-    <div>
-      <%= direccion_form.label :telefono_emergencia, "Telefono de emergencia" %>
-      <%= direccion_form.text_field :telefono_emergencia, class: "form-input" %>
-    </div>
-    <div>
-      <%= direccion_form.label :estado, "Estado" %>
-      <%= direccion_form.text_field :estado, class: "form-input" %>
-    </div>
-    <div>
-      <%= direccion_form.label :municipio, "Municipio" %>
-      <%= direccion_form.text_field :municipio, class: "form-input" %>
-    </div>
-    <div>
-      <%= direccion_form.label :localidad, "Localidad" %>
-      <%= direccion_form.text_field :localidad, class: "form-input" %>
-    </div>
-    <div>
-      <%= direccion_form.label :calle, "Calle" %>
-      <%= direccion_form.text_field :calle, class: "form-input" %>
-    </div>
-    <div>
-      <%= direccion_form.label :code_postal, "Codigo Postal" %>
-      <%= direccion_form.text_field :code_postal, class: "form-input" %>
-    </div>
-    <% end %>
-  </div>
-  <div class="mt-4">
-    <%= form.submit "Guardar", class: "bg-green-
-    500 px-6 py-2 rounded-md font-semibold tracking-wide hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500" %>
-  </div>
