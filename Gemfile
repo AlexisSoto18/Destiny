@@ -31,6 +31,8 @@ gem "solid_cable"
 gem "font-awesome-sass", "~> 6.0"
 gem "heroicon-rails", "~> 0.2.9"
 gem "font-awesome-rails"
+gem "rdoc", "~> 6.13.1"
+
 
 
 # Reduces boot times through caching; required in config/boot.rb
