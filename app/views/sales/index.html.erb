@@ -1,20 +1,19 @@
-<h1 class="text-4xl font-bold text-center my-8 text-gray-800">Lista de Ventas</h1>
-
-<div class="bg-white p-8 rounded-md w-full mb-6">
-  <div class="flex items-center justify-between pb-6">
+<div class="bg-white p-8 rounded-md w-full shadow-md rounded-lg overflow-hidden">
+  <!-- Encabezado -->
+  <div class="flex items-center justify-between pb-6 border-gray-200 border-b">
     <div>
-      <h2 class="text-gray-600 font-semibold">Ventas</h2>
-      <span class="text-xs">Lista de ventas registradas</span>
+      <h2 class="text-gray-700 font-semibold text-lg">Ventas</h2>
+      <span class="text-sm text-gray-500">Lista de ventas registradas</span>
     </div>
-
-    <div class="flex items-center justify-between">
-      <!-- Barra de búsqueda expandida -->
-      <div class="flex items-center bg-gray-50 p-4 rounded-md shadow-sm">
+    
+    <div class="flex items-center space-x-4">
+      <!-- Barra de búsqueda -->
+      <div class="flex items-center bg-gray-100 px-4 py-2 rounded-md shadow-sm">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
           <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
         </svg>
         <%= form_with url: sales_path, method: :get, local: true, class: "flex items-center w-full" do |form| %>
-          <input type="text" name="nombre" value="<%= params[:nombre] %>" class="flex-grow bg-gray-50 outline-none ml-3 p-2 text-gray-800 border border-gray-200 rounded-md focus:ring focus:ring-indigo-300 focus:border-indigo-500" placeholder="Buscar por nombre, servicio..." />
+          <input type="text" name="nombre" value="<%= params[:nombre] %>" class="flex-grow bg-gray-100 outline-none ml-3 p-2 text-gray-800 border border-gray-300 rounded-md focus:ring focus:ring-indigo-300 focus:border-indigo-500" placeholder="Buscar por nombre, servicio..." />
           <%= form.submit "Buscar", class: "bg-indigo-600 text-white px-4 py-2 rounded-md font-semibold hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 ml-2" %>
         <% end %>
       </div>
@@ -26,56 +25,69 @@
     </div>
   </div>
 
-  <!-- Tabla de ventas -->
-  <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
-    <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
-      <table class="min-w-full leading-normal">
-        <thead>
-          <tr>
-            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-              Costo
-            </th>
-            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-              Servicio
-            </th>
-            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-              Paciente
-            </th>
-            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-              Fecha
-            </th>
-            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-              Acciones
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @sales.each do |sale| %>
-            <tr>
-              <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                <p class="text-gray-900 whitespace-no-wrap"><%= number_to_currency(sale.costo) %></p>
-              </td>
-              <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                <p class="text-gray-900 whitespace-no-wrap"><%= sale.servicio %></p>
-              </td>
-              <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                <p class="text-gray-900 whitespace-no-wrap"><%= sale.paciente.nombre %> <%= sale.paciente.apellido_paterno %></p>
-              </td>
-              <!-- Columna de Fecha -->
-              <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                <p class="text-gray-900 whitespace-no-wrap">
-                  <%= sale.created_at.in_time_zone('America/Mexico_City').strftime('%d/%m/%Y %H:%M') %>
-                </p>
-              </td>
-              <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                <%= link_to "Ver", sale_path(sale), class: "text-blue-500 underline" %> |
-                <%= link_to "Editar", edit_sale_path(sale), class: "text-yellow-500 underline" %> |
-                <%= button_to "Eliminar", sale_path(sale), method: :delete, data: { confirm: '¿Estás seguro de que deseas eliminar esta venta?' }, class: "text-red-500 underline" %>
-              </td>
+  <!-- Ventas organizadas por mes -->
+  <div class="px-4 sm:px-8 py-4 overflow-x-auto">
+    <div class="inline-block min-w-full shadow-md rounded-lg overflow-hidden">
+      <% @sales.group_by { |sale| sale.created_at.strftime("%B %Y") }.each do |month, sales_group| %>
+        <div class="mb-6">
+          <h3 class="text-xl font-semibold text-gray-800"><%= month %></h3>
+        </div>
+
+        <table class="min-w-full leading-normal">
+          <thead>
+            <tr class="bg-gray-100">
+              <th class="px-5 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Costo</th>
+              <th class="px-5 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Servicio</th>
+              <th class="px-5 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Paciente</th>
+              <th class="px-5 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Fecha</th>
+              <th class="px-5 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Acciones</th>
             </tr>
-          <% end %>
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            <% sales_group.each do |sale| %>
+              <tr class="border-b border-gray-200">
+                <!-- Costo -->
+                <td class="px-5 py-4 text-gray-900">
+                  <%= number_to_currency(sale.costo) %>
+                </td>
+                <!-- Servicio -->
+                <td class="px-5 py-4 text-gray-900">
+                  <%= sale.servicio %>
+                </td>
+                <!-- Paciente -->
+                <td class="px-5 py-4 text-gray-900">
+                  <%= sale.paciente.nombre %> <%= sale.paciente.apellido_paterno %>
+                </td>
+                <!-- Fecha -->
+                <td class="px-5 py-4 text-gray-900">
+                  <%= sale.created_at.strftime("%d/%m/%Y") %>
+                </td>
+                <!-- Acciones -->
+                <td class="px-5 py-4 text-center">
+                  <div class="flex justify-center space-x-4">
+                    <%= link_to sale_path(sale), class: "text-blue-500 hover:text-blue-700" do %>
+                      <%= heroicon "eye", variant: :outline, class: "w-6 h-6" %>
+                    <% end %>
+                    <%= link_to edit_sale_path(sale), class: "text-yellow-500 hover:text-yellow-700" do %>
+                      <%= heroicon "pencil-square", variant: :outline, class: "w-6 h-6" %>
+                    <% end %>
+                    <%= button_to sale_path(sale), method: :delete, class: "text-red-500 hover:text-red-700" do %>
+                      <%= heroicon "trash", variant: :outline, class: "w-6 h-6" %>
+                    <% end %>
+                  </div>
+                </td>
+              </tr>
+            <% end %>
+            <!-- Mostrar total de ventas por mes -->
+<tr class="font-bold bg-gray-0">
+  <td colspan="4" class="px-5 py-5 border-t border-gray-200 text-left text-sm">
+    <strong>Total Costo:</strong> <%= number_to_currency(sales_group.sum { |sale| sale.costo }) %>
+  </td>
+</tr>
+
+          </tbody>
+        </table>
+      <% end %>
     </div>
   </div>
 </div>
