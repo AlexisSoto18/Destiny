@@ -22,8 +22,10 @@ class PacientesController < ApplicationController
     if @paciente.save
       redirect_to @paciente, notice: "Paciente creado exitosamente."
     else
-      puts @paciente.errors.full_messages
-      render :new
+      if @paciente.errors[:curp].include?("Ya existe un paciente con este CURP")
+        redirect_to @paciente, notice: "Ya existe un paciente con este CURP"
+      end
+      render :new, status: :unprocessable_entity
     end
   end
 

@@ -6,6 +6,6 @@ class Paciente < ApplicationRecord
   has_many :historial_clinicos, dependent: :destroy
   has_many :schedules, dependent: :destroy
   scope :search, ->(nombre) { where("CONCAT(nombre, ' ', apellido_paterno, ' ', apellido_materno) LIKE ?", "%#{nombre}%") }
-
+  validates :curp, presence: true, uniqueness: true
   accepts_nested_attributes_for :direccion
 end

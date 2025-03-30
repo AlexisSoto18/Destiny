@@ -14,5 +14,6 @@ class CreatePacientes < ActiveRecord::Migration[8.0]
 
       t.timestamps
     end
+    add_index :pacientes, :curp, unique: true
   end
 end
