@@ -1,8 +1,15 @@
-<h1 class="text-4xl font-bold text-center my-8 text-gray-800">Detalles de la Venta</h1>
+<div class="bg-white p-8 rounded-md w-full shadow-md rounded-lg overflow-hidden">
+  <!-- Encabezado -->
+  <div class="flex items-center justify-between pb-6 border-gray-200 border-b">
+    <div>
+      <h2 class="text-gray-700 font-semibold text-lg">Venta Detalles</h2>
+      <span class="text-sm text-gray-500">Información de la venta</span>
+    </div>
+  </div>
 
-<div class="bg-white p-8 rounded-md shadow-md w-full">
+  <!-- Información de la Venta -->
   <div class="mb-6">
-    <p class="text-lg"><strong class="font-semibold text-gray-700">Costo:</strong> <%= @sale.costo %></p>
+    <p class="text-lg"><strong class="font-semibold text-gray-700">Costo:</strong> <%= number_to_currency(@sale.costo) %></p>
   </div>
   
   <div class="mb-6">
@@ -13,8 +20,9 @@
     <p class="text-lg"><strong class="font-semibold text-gray-700">Paciente:</strong> <%= @sale.paciente.nombre %> <%= @sale.paciente.apellido_paterno %></p>
   </div>
 
+  <!-- Acciones -->
   <div class="mt-6 flex justify-start space-x-4">
-    <%= link_to 'Editar', edit_sale_path(@sale), class: "text-yellow-600 hover:text-yellow-800 font-semibold hover:underline transition duration-200" %>
-    <%= link_to 'Volver', sales_path, class: "text-blue-600 hover:text-blue-800 font-semibold hover:underline transition duration-200" %>
+    <%= link_to 'Editar', edit_sale_path(@sale), class: "text-yellow-500 hover:text-yellow-700 font-semibold hover:underline transition duration-200" %>
+    <%= link_to 'Volver', sales_path, class: "text-blue-500 hover:text-blue-700 font-semibold hover:underline transition duration-200" %>
   </div>
 </div>
