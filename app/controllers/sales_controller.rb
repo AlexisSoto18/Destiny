@@ -11,6 +11,12 @@ class SalesController < ApplicationController
     else
       @sales = Sale.all
     end
+    
+    # Agrupar las ventas por mes y año
+    @grouped_sales = @sales.group_by { |sale| sale.created_at.strftime("%Y-%m") }
+    
+    # Calcula la suma total de los costos
+    @total_costo = @sales.sum(:costo)
   end
 
   # GET /sales/1
