@@ -1,20 +1,227 @@
-<%= form_with(model: @schedule, local: true) do |form| %>
-  <div class="mb-6">
-    <%= form.label :paciente_id, class: "block text-sm font-semibold text-gray-700" %>
-    <%= form.collection_select :paciente_id, Paciente.all, :id, :nombre, prompt: "Selecciona un paciente", class: "w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" %>
-  </div>
-  <div>
-    <%= form.label :titulo, "Título" %>
-    <%= form.text_field :titulo, required: true %>
-  </div>
-  <div>
-    <%= form.label :descripcion, "Descripción" %>
-    <%= form.text_area :descripcion, required: true %>
-  </div>
-  <div>
-    <%= form.label :fecha_hora, "Fecha y Hora" %>
-    <%= form.datetime_local_field :fecha_hora, required: true %>
-  </div>
-  <%= form.submit "Agendar Cita" %>
-<% end %>
+<!-- app/views/meetings/index.html.erb -->
+<div class="flex w-full gap-8 p-6 bg-white">
+  <!-- Contenedor del formulario -->
+  <div class="w-1/3 bg-white p-6 rounded-lg shadow-md">
+    <h2 class="text-2xl font-bold mb-4">Agendar cita</h2>
+  
+    <%= form_with(model: @schedule, local: true) do |form| %>
+      <!-- Selección de paciente -->
+      <div class="mb-4">
+        <%= form.label :paciente_id, "Paciente", class: "block text-sm font-semibold text-gray-700" %>
+        <%= form.collection_select :paciente_id, Paciente.all, :id, :nombre, { prompt: "Selecciona un paciente" }, class: "w-full px-4 py-2 border rounded-md" %>
+      </div>
 
+      <!-- Campo para el título de la cita -->
+      <div class="mb-4">
+        <%= form.label :titulo, "Título", class: "block text-sm font-semibold text-gray-700" %>
+        <%= form.text_field :titulo, required: true, class: "w-full px-4 py-2 border rounded-md" %>
+      </div>
+
+      <!-- Campo para la descripción de la cita -->
+      <div class="mb-4">
+        <%= form.label :descripcion, "Descripción", class: "block text-sm font-semibold text-gray-700" %>
+        <%= form.text_area :descripcion, required: true, class: "w-full px-4 py-2 border rounded-md" %>
+      </div>
+
+      <!-- Input oculto que se actualizará con la fecha y la hora seleccionadas -->
+      <div class="mb-4">
+        <%= form.label :fecha_hora, "Fecha y Hora", class: "block text-sm font-semibold text-gray-700" %>
+        <%= form.text_field :fecha_hora, required: true, id: "fecha_hora_picker", placeholder: "Seleccione uan fecha en el calendario", class: "w-full px-4 py-2 border rounded-md", readonly: true %>
+      </div>
+
+      <!-- Selección de hora -->
+      <div class="mb-4">
+        <label for="time_picker" class="block text-sm font-semibold text-gray-700">Selecciona la hora</label>
+        <select id="time_picker" class="w-full px-4 py-2 border rounded-md">
+          <option value="08:00">08:00</option>
+          <option value="08:30">08:30</option>
+          <option value="09:00" selected>09:00</option>
+          <option value="09:30">09:30</option>
+          <option value="10:00">10:00</option>
+          <option value="10:30">10:30</option>
+          <option value="11:00">11:00</option>
+          <option value="11:30">11:30</option>
+          <option value="12:00">12:00</option>
+          <option value="12:30">12:30</option>
+          <option value="13:00">13:00</option>
+          <option value="13:30">13:30</option>
+          <option value="14:00">14:00</option>
+          <option value="14:30">14:30</option>
+          <option value="15:00">15:00</option>
+          <option value="15:30">15:30</option>
+          <option value="16:00">16:00</option>
+          <option value="16:30">16:30</option>
+          <option value="17:00">17:00</option>
+          <option value="17:30">17:30</option>
+          <option value="18:00">18:00</option>
+        </select>
+      </div>
+
+      <!-- Botón para agendar cita -->
+      <div class="mt-4">
+        <%= form.submit "Agendar Cita", class: "w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700" %>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Sección Derecha: Calendario -->
+  <div class="w-1/2">
+    <!-- Encabezado del calendario con mes, año y controles -->
+    <div class="flex items-center justify-between mb-4">
+      <div id="calendar-header">
+        <!-- Se actualizará dinámicamente -->
+      </div>
+      <div class="flex space-x-2 items-center">
+        <button id="prev-month" class="px-2 py-1 text-gray-600 hover:text-gray-800">&larr;</button>
+        <!-- Dropdown para seleccionar un mes próximo -->
+        <select id="month-selector" class="px-2 py-1 border rounded">
+          <% monthNames = Date::MONTHNAMES.compact %>
+          <% monthNames.each_with_index do |m, i| %>
+            <option value="<%= i %>"><%= m %></option>
+          <% end %>
+        </select>
+        <button id="next-month" class="px-2 py-1 text-gray-600 hover:text-gray-800">&rarr;</button>
+      </div>
+    </div>
+
+    <!-- Encabezado de días de la semana -->
+    <div class="grid grid-cols-7 gap-2 text-center text-gray-600 font-semibold mb-2">
+      <div>Dom</div>
+      <div>Lun</div>
+      <div>Mar</div>
+      <div>Mie</div>
+      <div>Jue</div>
+      <div>Vie</div>
+      <div>Sab</div>
+    </div>
+
+    <!-- Contenedor donde se generará la cuadrícula de días -->
+    <div id="calendar-grid" class="grid grid-cols-7 gap-2 text-center"></div>
+  </div>
+</div>
+
+<!-- Script para generar el calendario dinámicamente, actualizar mes/año y combinar fecha con hora -->
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Inicializamos la fecha actual
+    let today = new Date();
+    let currentYear = today.getFullYear();
+    let currentMonth = today.getMonth(); // Enero es 0
+    let selectedDate = null;
+
+    // Referencias a elementos del DOM
+    const calendarHeader = document.getElementById('calendar-header');
+    const calendarGrid = document.getElementById('calendar-grid');
+    const fechaHoraInput = document.getElementById('fecha_hora_picker');
+    const timePicker = document.getElementById('time_picker');
+    const monthSelector = document.getElementById('month-selector');
+
+    // Array con nombres de meses (en inglés, según Date::MONTHNAMES en Ruby, sin el primer elemento nil)
+    const monthNames = [
+      'January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+
+    // Función para actualizar el input combinando la fecha y la hora seleccionada
+    function updateFechaHora() {
+      if(selectedDate) {
+        fechaHoraInput.value = selectedDate + " " + timePicker.value;
+      }
+    }
+
+    // Función que genera el calendario para un mes y año dado
+    function generateCalendar(year, month) {
+      calendarGrid.innerHTML = '';
+
+      // Actualizamos el encabezado del calendario
+      calendarHeader.innerHTML = `
+        <h3 class="text-xl font-semibold text-gray-800">${monthNames[month]}</h3>
+        <p class="text-sm text-gray-500">${year}</p>
+      `;
+
+      // Sincronizamos el dropdown con el mes actual
+      monthSelector.value = month;
+
+      // Primer día del mes
+      const firstDay = new Date(year, month, 1);
+      const startingDay = firstDay.getDay(); // 0 (Domingo) a 6 (Sábado)
+
+      // Número de días en el mes
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+      // Generar celdas vacías si el mes no empieza en domingo
+      for (let i = 0; i < startingDay; i++) {
+        let emptyDiv = document.createElement('div');
+        emptyDiv.className = 'p-2';
+        calendarGrid.appendChild(emptyDiv);
+      }
+
+      // Generar celdas para cada día del mes
+      for (let day = 1; day <= daysInMonth; day++) {
+        const dayDiv = document.createElement('div');
+        dayDiv.className = 'calendar-day cursor-pointer p-2 rounded hover:bg-indigo-100 transition-colors';
+        // Formato: YYYY-MM-DD
+        let formattedDay = day.toString().padStart(2, '0');
+        let formattedMonth = (month + 1).toString().padStart(2, '0');
+        dayDiv.setAttribute('data-date', `${year}-${formattedMonth}-${formattedDay}`);
+        dayDiv.innerText = day;
+        calendarGrid.appendChild(dayDiv);
+      }
+
+      // Agregar funcionalidad a cada día
+      attachDayClickEvent();
+    }
+
+    // Función para asignar el evento click a cada día del calendario
+    function attachDayClickEvent() {
+      const calendarDays = document.querySelectorAll('.calendar-day');
+      calendarDays.forEach(function(day) {
+        day.addEventListener('click', function () {
+          // Se almacena la fecha seleccionada
+          selectedDate = this.getAttribute('data-date');
+          // Actualizamos el input combinando la fecha y la hora seleccionada
+          updateFechaHora();
+
+          // Resaltamos visualmente el día seleccionado
+          calendarDays.forEach(function(d) {
+            d.classList.remove('bg-indigo-100');
+          });
+          this.classList.add('bg-indigo-100');
+        });
+      });
+    }
+
+    // Evento para cuando el usuario cambia la hora en el dropdown
+    timePicker.addEventListener('change', function() {
+      updateFechaHora();
+    });
+
+    // Eventos para los botones de cambiar de mes
+    document.getElementById('prev-month').addEventListener('click', function() {
+      currentMonth--;
+      if (currentMonth < 0) {
+        currentMonth = 11;
+        currentYear--;
+      }
+      generateCalendar(currentYear, currentMonth);
+    });
+
+    document.getElementById('next-month').addEventListener('click', function() {
+      currentMonth++;
+      if (currentMonth > 11) {
+        currentMonth = 0;
+        currentYear++;
+      }
+      generateCalendar(currentYear, currentMonth);
+    });
+
+    // Evento para el dropdown de meses (meses próximos)
+    monthSelector.addEventListener('change', function() {
+      currentMonth = parseInt(this.value);
+      generateCalendar(currentYear, currentMonth);
+    });
+
+    // Generar el calendario inicial con la fecha actual
+    generateCalendar(currentYear, currentMonth);
+  });
+</script>

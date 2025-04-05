@@ -23,8 +23,8 @@ class SchedulesController < ApplicationController
   end
 
   def update
-    if @schedule.update(sale_params)
-      redirect_to @schedule, notice: "Sale was successfully updated."
+    if @schedule.update(schedule_params)
+      redirect_to schedules_path, notice: "Sale was successfully updated."
     else
       render :edit
     end
