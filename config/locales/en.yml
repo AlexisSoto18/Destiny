@@ -27,5 +27,29 @@
 #       "yes": yup
 #       enabled: "ON"
 
-en:
-  hello: "Hello world"
+#en:
+#hello: "Hello world"
+es:
+  date:
+    abbr_day_names: [Dom, Lun, Mar, Mié, Jue, Vie, Sáb]
+    day_names: [domingo, lunes, martes, miércoles, jueves, viernes, sábado]
+    month_names:
+      [
+        ~,
+        enero,
+        febrero,
+        marzo,
+        abril,
+        mayo,
+        junio,
+        julio,
+        agosto,
+        septiembre,
+        octubre,
+        noviembre,
+        diciembre,
+      ]
+    formats:
+      default: "%d/%m/%Y"
+      long: "%d de %B de %Y"
+      short: "%d %b"

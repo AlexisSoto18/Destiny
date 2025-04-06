@@ -1,34 +1,109 @@
-<div>
-<%= link_to "Nuevo Paciente", new_schedule_path, class: "bg-green-500 px-6 py-2 rounded-md text-white font-semibold tracking-wide hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500" %>
-</div>
-<% if @schedules.present? %>
-  <ul>
-    <% @schedules.each do |schedule| %>
-      <tr>
-        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-          <p class="text-gray-900 whitespace-no-wrap"><%= schedule.paciente.nombre %></p>
-        </td>
-        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-          <p class="text-gray-900 whitespace-no-wrap"><%= schedule.titulo %></p>
-        </td>
-        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-          <p class="text-gray-900 whitespace-no-wrap"><%= schedule.descripcion %></p>
-        </td>
-         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-          <p class="text-gray-900 whitespace-no-wrap"><%= schedule.fecha_hora %></p>
-        </td>
-      </tr>
-      <div class="flex justify-center space-x-4">
-        <%= link_to edit_schedule_path(schedule), class: "text-yellow-500 hover:text-yellow-700" do %>
-          <%= heroicon "pencil-square", variant: :outline, class: "w-6 h-6" %>
-        <% end %>
-        <%= button_to schedule_path(schedule), method: :delete, class: "text-red-500 hover:text-red-700" do %>
-          <%= heroicon "trash", variant: :outline, class: "w-6 h-6" %>
-        <% end %>
-      </div>                  
+<!-- Controles de navegación -->
+<div class="max-w-7xl mx-auto px-4">
+<div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+  <div class="space-x-2">
+    <% if @view_mode == "week" %>
+      <%= link_to "← Semana anterior", schedules_path(week_offset: params[:week_offset].to_i - 1, view: "week"), class: "px-4 py-2 bg-[#3D8D7A] text-white rounded" %>
+      <%= link_to "Hoy", schedules_path(view: "week"), class: "px-4 py-2  bg-teal-500 text-white rounded hover:bg-[#3D8D7A]" %>
+      <%= link_to "Semana siguiente →", schedules_path(week_offset: params[:week_offset].to_i + 1, view: "week"), class: "px-4 py-2 bg-[#3D8D7A] text-white rounded" %>
+    <% else %>
+      <%= link_to "← Mes anterior", schedules_path(month_offset: params[:month_offset].to_i - 1, view: "month"), class: "px-4 py-2 bg-[#3D8D7A] text-white rounded" %>
+      <%= link_to "Mes actual", schedules_path(view: "month"), class: "px-4 py-2 bg-teal-500 text-white rounded hover:bg-[#3D8D7A]" %>
+      <%= link_to "Mes siguiente →", schedules_path(month_offset: params[:month_offset].to_i + 1, view: "month"), class: "px-4 py-2 bg-[#3D8D7A] text-white rounded" %>
     <% end %>
-  </ul>
-  
-<% else %>
-  <p>No hay horarios disponibles.</p>
+  </div>
+
+  <div class="space-x-2">
+    <%= link_to "Vista semanal", schedules_path(view: "week"), class: "px-4 py-2 rounded bg-teal-500 text-white rounded hover:bg-[#3D8D7A] #{'font-bold' if @view_mode == 'week'}" %>
+    <%= link_to "Vista mensual", schedules_path(view: "month"), class: "px-4 py-2 rounded bg-teal-500 text-white rounded hover:bg-[#3D8D7A] #{'font-bold' if @view_mode == 'month'}" %>
+  </div>
+  <div>
+    <%= link_to "Crear nueva cita", new_schedule_path, class: "px-4 py-2  bg-teal-500 text-white rounded hover:bg-[#3D8D7A]" %>
+  </div>
+</div>
+
+<% if @view_mode == "week" %>
+  <% week_days = (@start_date..@end_date).to_a %>
+  <% grouped = @schedules.group_by { |s| s.fecha_hora.to_date } %>
+  <% mes_actual = I18n.l(@start_date, format: "%B %Y") %>
+
+  <div class="text-center text-xl font-bold text-gray-700 mb-4 capitalize">
+    <%= mes_actual %>
+  </div>
+
+  <!-- Encabezado de días -->
+  <div class="grid grid-cols-7 gap-2 text-sm mb-2">
+    <% I18n.t("date.abbr_day_names").rotate(1).each do |day| %>
+      <div class="text-center font-semibold text-gray-700 uppercase"><%= day %></div>
+    <% end %>
+  </div>
+
+  <!-- Días de la semana -->
+  <div class="grid grid-cols-7 gap-2 text-sm">
+    <% week_days.each do |day| %>
+      <div class="bg-gray-100 rounded-md p-2 min-h-[120px] flex flex-col">
+        <div class="text-xs text-gray-600 font-bold mb-1 text-right"><%= day.day %></div>
+
+        <% if grouped[day].present? %>
+          <% grouped[day].sort_by(&:fecha_hora).each do |schedule| %>
+            <div class="bg-white p-1 rounded mb-1 shadow text-xs border-l-2 border-blue-500">
+              <p class="font-medium text-gray-800"><%= schedule.paciente.nombre %></p>
+              <p class="text-gray-500"><%= schedule.fecha_hora.strftime('%H:%M') %></p>
+              <div class="mt-1 flex space-x-2">
+                <%= link_to edit_schedule_path(schedule), class: "text-yellow-500 hover:text-yellow-700" do %>
+                  <%= heroicon "pencil-square", variant: :outline, class: "w-4 h-4" %>
+                <% end %>
+                <%= button_to schedule_path(schedule), method: :delete, data: { confirm: "¿Eliminar cita?" }, class: "text-red-500 hover:text-red-700" do %>
+                  <%= heroicon "trash", variant: :outline, class: "w-4 h-4" %>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+
+<% elsif @view_mode == "month" %>
+  <% grouped = @schedules.group_by { |s| s.fecha_hora.to_date } %>
+  <% days_in_month = (@start_date..@end_date).to_a %>
+  <% first_wday = @start_date.beginning_of_month.wday %>
+  <% padding = (first_wday - 1) % 7 %>
+  <% mes_actual = I18n.l(@start_date, format: "%B %Y") %>
+  <div class="text-center text-xl font-bold text-gray-700 mb-4 capitalize">
+    <%= mes_actual %>
+
+  <div class="grid grid-cols-7 gap-2 text-sm">
+    <% I18n.t("date.abbr_day_names").rotate(1).each do |day| %>
+      <div class="text-center font-semibold text-gray-700 uppercase"><%= day %></div>
+    <% end %>
+
+    <% padding.times do %>
+      <div></div>
+    <% end %>
+
+    <% days_in_month.each do |day| %>
+      <div class="bg-gray-100 rounded-md p-2 min-h-[120px] flex flex-col">
+        <div class="text-xs text-gray-600 font-bold mb-1"><%= day.day %></div>
+        <% if grouped[day].present? %>
+          <% grouped[day].each do |schedule| %>
+            <div class="bg-white p-1 rounded mb-1 shadow text-xs border-l-2 border-blue-500">
+              <p class="font-medium text-gray-800"><%= schedule.paciente.nombre %></p>
+              <p class="text-gray-500"><%= schedule.fecha_hora.strftime('%H:%M') %></p>
+              <div class="mt-1 flex space-x-2">
+                <%= link_to edit_schedule_path(schedule), class: "text-yellow-500 hover:text-yellow-700" do %>
+                  <%= heroicon "pencil-square", variant: :outline, class: "w-4 h-4" %>
+                <% end %>
+                <%= button_to schedule_path(schedule), method: :delete, data: { confirm: "¿Eliminar cita?" }, class: "text-red-500 hover:text-red-700" do %>
+                  <%= heroicon "trash", variant: :outline, class: "w-4 h-4" %>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
 <% end %>
+</div>

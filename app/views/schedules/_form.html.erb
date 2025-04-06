@@ -6,33 +6,33 @@
   
     <%= form_with(model: @schedule, local: true) do |form| %>
       <!-- Selección de paciente -->
-      <div class="mb-4">
-        <%= form.label :paciente_id, "Paciente", class: "block text-sm font-semibold text-gray-700" %>
-        <%= form.collection_select :paciente_id, Paciente.all, :id, :nombre, { prompt: "Selecciona un paciente" }, class: "w-full px-4 py-2 border rounded-md" %>
+      <div class="mb-6">
+        <%= form.label :paciente_id, "Paciente", class: "block text-sm font-medium text-gray-800" %>
+        <%= form.collection_select :paciente_id, Paciente.all, :id, :nombre, { prompt: "Selecciona un paciente" }, class: "w-full px-4 py-3 mt-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none transition duration-300 ease-in-out" %>
       </div>
 
       <!-- Campo para el título de la cita -->
-      <div class="mb-4">
-        <%= form.label :titulo, "Título", class: "block text-sm font-semibold text-gray-700" %>
-        <%= form.text_field :titulo, required: true, class: "w-full px-4 py-2 border rounded-md" %>
+      <div class="mb-6">
+        <%= form.label :titulo, "Título", class: "block text-sm font-medium text-gray-800" %>
+        <%= form.text_field :titulo, required: true, class: "w-full px-4 py-3 mt-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none transition duration-300 ease-in-out" %>
       </div>
 
       <!-- Campo para la descripción de la cita -->
-      <div class="mb-4">
-        <%= form.label :descripcion, "Descripción", class: "block text-sm font-semibold text-gray-700" %>
-        <%= form.text_area :descripcion, required: true, class: "w-full px-4 py-2 border rounded-md" %>
+      <div class="mb-6">
+        <%= form.label :descripcion, "Descripción", class: "block text-sm font-medium text-gray-800" %>
+        <%= form.text_area :descripcion, required: true, class: "w-full px-4 py-3 mt-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none transition duration-300 ease-in-out" %>
       </div>
 
       <!-- Input oculto que se actualizará con la fecha y la hora seleccionadas -->
-      <div class="mb-4">
-        <%= form.label :fecha_hora, "Fecha y Hora", class: "block text-sm font-semibold text-gray-700" %>
-        <%= form.text_field :fecha_hora, required: true, id: "fecha_hora_picker", placeholder: "Seleccione uan fecha en el calendario", class: "w-full px-4 py-2 border rounded-md", readonly: true %>
+      <div class="mb-6">
+        <%= form.label :fecha_hora, "Fecha y Hora", class: "block text-sm font-medium text-gray-800" %>
+        <%= form.text_field :fecha_hora, required: true, id: "fecha_hora_picker", placeholder: "Selecciona una fecha en el calendario", class: "w-full px-4 py-3 mt-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none transition duration-300 ease-in-out", readonly: true %>
       </div>
 
       <!-- Selección de hora -->
       <div class="mb-4">
         <label for="time_picker" class="block text-sm font-semibold text-gray-700">Selecciona la hora</label>
-        <select id="time_picker" class="w-full px-4 py-2 border rounded-md">
+        <select id="time_picker" class="w-full px-4 py-3 mt-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none transition duration-300 ease-in-out">
           <option value="08:00">08:00</option>
           <option value="08:30">08:30</option>
           <option value="09:00" selected>09:00</option>
@@ -58,8 +58,11 @@
       </div>
 
       <!-- Botón para agendar cita -->
-      <div class="mt-4">
-        <%= form.submit "Agendar Cita", class: "w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700" %>
+      <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+        <div class="space-x-2">
+          <%= form.submit "Agendar Cita", class: "px-4 py-2  bg-teal-500 text-white rounded hover:bg-[#3D8D7A]" %>
+          <%= link_to "Cancelar", schedules_path, class: "px-4 py-2  bg-teal-500 text-white rounded hover:bg-[#3D8D7A]" %>
+        </div>
       </div>
     <% end %>
   </div>

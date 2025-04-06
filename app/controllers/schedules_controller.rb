@@ -2,7 +2,23 @@ class SchedulesController < ApplicationController
   before_action :set_schedule, only: [ :show, :edit, :update, :destroy ]
 
   def index
-    @schedules = Schedule.all
+    # @schedules = Schedule.all
+    week_offset = params[:week_offset].to_i
+    month_offset = params[:month_offset].to_i
+
+    if params[:view] == "month"
+      start_date = Date.today.beginning_of_month + month_offset.months
+      end_date = start_date.end_of_month
+    else
+      start_date = Date.today.beginning_of_week(:monday) + week_offset.weeks
+      end_date = start_date + 6.days
+    end
+
+    @view_mode = params[:view] || "week"
+    @start_date = start_date
+    @end_date = end_date
+
+    @schedules = Schedule.where(fecha_hora: start_date.beginning_of_day..end_date.end_of_day).includes(:paciente)
   end
   def show
   end
