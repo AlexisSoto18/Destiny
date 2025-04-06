@@ -50,7 +50,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_21_044852) do
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["curp"], name: "index_pacientes_on_curp", unique: true
     t.index ["user_id"], name: "index_pacientes_on_user_id"
   end
 
@@ -70,7 +69,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_21_044852) do
     t.integer "paciente_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["fecha_hora"], name: "index_schedules_on_fecha_hora", unique: true
     t.index ["paciente_id"], name: "index_schedules_on_paciente_id"
   end
 
