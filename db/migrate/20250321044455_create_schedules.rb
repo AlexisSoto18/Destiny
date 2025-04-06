@@ -8,5 +8,6 @@ class CreateSchedules < ActiveRecord::Migration[8.0]
 
       t.timestamps
     end
+    add_index :schedules, :fecha_hora, unique: true
   end
 end

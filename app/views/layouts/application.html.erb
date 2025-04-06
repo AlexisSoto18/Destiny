@@ -52,6 +52,13 @@
           </div>
       </div>
     </nav>
+    <% flash.each do |type, message| %>
+      <% class_name = type == "notice" ? "bg-green-500 text-white p-4 rounded" : "bg-red-500 text-white p-4 rounded" %>
+      <div data-controller="flash" class="<%= class_name %>">
+        <%= message %>
+      </div>
+    <% end %>
+
     <main class="container mx-auto mt-28 px-5 flex">
       <%= yield %>
     </main>

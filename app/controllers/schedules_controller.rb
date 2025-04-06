@@ -15,6 +15,9 @@ class SchedulesController < ApplicationController
     if @schedule.save
       redirect_to schedules_path, notice: "Cita agendada con éxito."
     else
+      if @schedule.errors[:fecha_hora].include?("Ya existe una cita en esta fecha y hora")
+        redirect_to @schedules, notice: "Error al crear la cita."
+      end
       render :new, status: :unprocessable_entity
     end
   end
