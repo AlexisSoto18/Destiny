@@ -1,5 +1,12 @@
-<div>
-    <h1>Home</h1>
-    <%= link_to "Login", new_session_path %>
-</div>
 
+  <div class="w-full max-w-sm p-8 bg-white rounded-md shadow-lg">
+    
+    <% if Rails.env.development? && (reset_link = flash[:reset_link]) %>
+      <div id="reset-link" class="mb-5 p-4 bg-yellow-50 text-yellow-700 font-medium rounded-md border border-yellow-200 shadow">
+        🔐 <span>Reset password:</span><br>
+        <%= link_to "Reset password", reset_link, class: "underline hover:no-underline text-blue-600 break-words" %>
+      </div>
+    <% end %>
+
+    <!-- Aquí puedes agregar algo más si quieres mostrar otro contenido -->
+  </div>

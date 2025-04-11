@@ -14,13 +14,13 @@
         </svg>
         <%= form_with url: sales_path, method: :get, local: true, class: "flex items-center w-full" do |form| %>
           <input type="text" name="nombre" value="<%= params[:nombre] %>" class="flex-grow bg-gray-100 outline-none ml-3 p-2 text-gray-800 border border-gray-300 rounded-md focus:ring focus:ring-indigo-300 focus:border-indigo-500" placeholder="Buscar por nombre, servicio..." />
-          <%= form.submit "Buscar", class: "bg-indigo-600 text-white px-4 py-2 rounded-md font-semibold hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 ml-2" %>
+          <%= form.submit "Buscar", class: "px-4 py-2  bg-teal-500 text-white px-4 py-2 rounded-md font-semibold hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 ml-2" %>
         <% end %>
       </div>
 
       <!-- Botón para nueva venta -->
       <div class="ml-4">
-        <%= link_to "Nuevo", new_sale_path, class: "bg-green-500 px-6 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500" %>
+        <%= link_to "Nuevo", new_sale_path, class: "px-4 py-2  bg-teal-500 text-white rounded hover:bg-[#3D8D7A]" %>
       </div>
     </div>
   </div>
