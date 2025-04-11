@@ -22,4 +22,5 @@ Rails.application.routes.draw do
   get "calendario" => "calendario#index", as: :calendario
   get "historial" => "pacientes#edit", as: :historial
   # Rutas para pacientes
+  resources :users, only: [ :index, :new, :create ]
 end
